@@ -1,14 +1,16 @@
 # Importing PYQT5 methods
 import sys
-from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QVBoxLayout, QWidget, QFileDialog, QGridLayout
+from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QVBoxLayout, QWidget, QFileDialog, QGridLayout, QLineEdit
+from qtwidgets import PasswordEdit
 from PyQt5.QtGui import QPixmap
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtGui import QCursor
+from qtpy import QtCore, QtGui, QtWidgets
 
-widgets= {"logo": [],
-          "login": [],
-          "signup": []
-          }
+widgets = {"logo": [], "login": [], "signup": [],
+           "backarrow": [], "usernamelabel": [], "passwordlabel": [], "loginusername": [], "loginpass": [],
+           "loginBUTT": []
+           }
 
 # Connecting to MySQL
 import mysql.connector
@@ -50,7 +52,6 @@ def frame1():
     logo.setAlignment(QtCore.Qt.AlignCenter)
     widgets["logo"].append(logo)
 
-
     # initilize a button widget and designing
     LOGIN = QPushButton(">  l o g i n  <")
     LOGIN.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
@@ -76,13 +77,88 @@ def frame1():
         "*:hover{background: '#BC006C';}")
     widgets["signup"].append(SIGNUP)
 
-
     grid.addWidget(widgets["logo"][-1], 0, 0)
     grid.addWidget(widgets["login"][-1], 1, 0)
     grid.addWidget(widgets["signup"][-1], 2, 0)
 
-frame1()
 
+def frame2():
+    Arrow1 = QPixmap("double-arrows.png").scaledToWidth(50)
+    Arrow = QLabel()
+    Arrow.setWordWrap(True)
+    Arrow.setPixmap(Arrow1)
+    Arrow.setAlignment(QtCore.Qt.AlignLeft)
+    widgets["backarrow"].append(Arrow)
+
+    usernameLabel = QLabel("username :")
+    usernameLabel.setAlignment(QtCore.Qt.AlignCenter)
+    usernameLabel.setStyleSheet("""
+            QLabel {border-radius: 35px;
+                font-family : Times font;
+                color: 'white';
+                font-size: 35px;
+            }
+            """)
+
+    passwordLabel = QLabel("password :")
+    passwordLabel.setAlignment(QtCore.Qt.AlignCenter)
+    passwordLabel.setStyleSheet("""
+                QLabel {
+                    border-radius: 35px;
+                    font-family : Times font;
+                    color: 'white';
+                    font-size: 35px;
+                }
+                """)
+
+    usernameboxU = QLineEdit("")
+    usernameboxU.setAlignment(QtCore.Qt.AlignCenter)
+    usernameboxU.setStyleSheet(
+        "*{border: 4px solid '#BC006C';" +
+        "border-radius: 35px;" +
+        "font-size: 25px;" +
+        "color: 'white';" +
+        "padding: 18px 0;" +
+        "margin: 25px 350px;}" +
+        "*:hover{background: '#BC006C';}")
+
+    passwordboxU = QLineEdit()
+    passwordboxU.setEchoMode(QLineEdit.Password)
+    passwordboxU.setAlignment(QtCore.Qt.AlignCenter)
+    passwordboxU.setStyleSheet(
+        "*{border: 4px solid '#BC006C';" +
+        "border-radius: 35px;" +
+        "font-size: 25px;" +
+        "color: 'white';" +
+        "padding: 18px 0;" +
+        "margin: 25px 350px;}" +
+        "*:hover{background: '#BC006C';}")
+
+    LOGINbutt = QPushButton(">  l o g i n  <")
+    LOGINbutt.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+    LOGINbutt.setStyleSheet(
+        "*{border-radius: 35px;" +
+        "font-size: 30px;" +
+        "color: 'white';" +
+        "padding: 18px 0;" +
+        "margin: 25px 400px;}" +
+        "*:hover{background: '#BC006C';}")
+
+    widgets["loginBUTT"].append(LOGINbutt)
+    widgets["backarrow"].append(Arrow)
+    widgets["loginusername"].append(usernameboxU)
+    widgets["loginpass"].append(passwordboxU)
+    widgets["usernamelabel"].append(usernameLabel)
+    widgets["passwordlabel"].append(passwordLabel)
+
+    grid.addWidget(widgets["backarrow"][-1], 0, 0)
+    grid.addWidget(widgets["usernamelabel"][-1], 2, 0)
+    grid.addWidget(widgets["loginusername"][-1], 3, 0)
+    grid.addWidget(widgets["passwordlabel"][-1], 4, 0)
+    grid.addWidget(widgets["loginpass"][-1], 5, 0)
+    grid.addWidget(widgets["loginBUTT"][-1], 6, 0)
+
+frame2()
 window.setLayout(grid)
 
 # show the window
