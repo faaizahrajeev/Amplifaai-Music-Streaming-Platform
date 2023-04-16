@@ -9,7 +9,8 @@ from qtpy import QtCore, QtGui, QtWidgets
 
 widgets = {"logo": [], "login": [], "signup": [],
            "backarrow": [], "usernamelabel": [], "passwordlabel": [], "loginusername": [], "loginpass": [],
-           "loginBUTT": []
+           "loginBUTT": [],
+           "f3backarrow": [], "f3logo": [], "f3user": [], "f3artist": []
            }
 
 # Connecting to MySQL
@@ -43,6 +44,30 @@ window.setStyleSheet("background: #000000;")
 grid = QGridLayout()
 
 
+def remove_widgets():
+    for widget in widgets:
+        if widgets[widget] != []:
+            widgets[widget][-1].hide()
+        for i in range(0, len(widgets[widget])):
+            widgets[widget].pop()
+
+
+def switch_to_2():
+    remove_widgets()
+    frame2()
+
+
+def switch_to_3():
+    remove_widgets()
+    frame3()
+
+
+def switch_to_1():
+    remove_widgets()
+    frame1()
+
+
+# login or signup
 def frame1():
     # display logo, create a label widget
     # place the image inside it
@@ -63,6 +88,7 @@ def frame1():
         "padding: 18px 0;" +
         "margin: 25px 300px;}" +
         "*:hover{background: '#BC006C';}")
+    LOGIN.clicked.connect(switch_to_2)
     widgets["login"].append(LOGIN)
 
     SIGNUP = QPushButton(">  s i g n u p  <")
@@ -77,17 +103,18 @@ def frame1():
         "*:hover{background: '#BC006C';}")
     widgets["signup"].append(SIGNUP)
 
-    grid.addWidget(widgets["logo"][-1], 0, 0)
-    grid.addWidget(widgets["login"][-1], 1, 0)
-    grid.addWidget(widgets["signup"][-1], 2, 0)
+    grid.addWidget(widgets["logo"][-1], 0, 0, 1, 2)
+    grid.addWidget(widgets["login"][-1], 1, 0, 1, 2)
+    grid.addWidget(widgets["signup"][-1], 2, 0, 1, 2)
 
 
-def frame2():
-    Arrow1 = QPixmap("double-arrows.png").scaledToWidth(50)
-    Arrow = QLabel()
-    Arrow.setWordWrap(True)
-    Arrow.setPixmap(Arrow1)
-    Arrow.setAlignment(QtCore.Qt.AlignLeft)
+# login details
+def frame3():
+    Arrow = QPushButton("")
+    Arrow.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+    Arrow.setIcon(QtGui.QIcon('double-arrows.png'))
+    Arrow.setIconSize(QtCore.QSize(48, 48))
+    Arrow.clicked.connect(switch_to_2)
     widgets["backarrow"].append(Arrow)
 
     usernameLabel = QLabel("username :")
@@ -141,7 +168,7 @@ def frame2():
         "font-size: 30px;" +
         "color: 'white';" +
         "padding: 18px 0;" +
-        "margin: 25px 400px;}" +
+        "margin: 25px 450px;}" +
         "*:hover{background: '#BC006C';}")
 
     widgets["loginBUTT"].append(LOGINbutt)
@@ -151,14 +178,67 @@ def frame2():
     widgets["usernamelabel"].append(usernameLabel)
     widgets["passwordlabel"].append(passwordLabel)
 
-    grid.addWidget(widgets["backarrow"][-1], 0, 0)
-    grid.addWidget(widgets["usernamelabel"][-1], 2, 0)
-    grid.addWidget(widgets["loginusername"][-1], 3, 0)
-    grid.addWidget(widgets["passwordlabel"][-1], 4, 0)
-    grid.addWidget(widgets["loginpass"][-1], 5, 0)
-    grid.addWidget(widgets["loginBUTT"][-1], 6, 0)
+    grid.addWidget(widgets["backarrow"][-1], 0, 1)
+    grid.addWidget(widgets["usernamelabel"][-1], 2, 0, 1, 2)
+    grid.addWidget(widgets["loginusername"][-1], 3, 0, 1, 2)
+    grid.addWidget(widgets["passwordlabel"][-1], 4, 0, 1, 2)
+    grid.addWidget(widgets["loginpass"][-1], 5, 0, 1, 2)
+    grid.addWidget(widgets["loginBUTT"][-1], 6, 0, 1, 2)
 
-frame2()
+
+# user or artist
+def frame2():
+    Arrow = QPushButton("")
+    Arrow.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+    Arrow.setIcon(QtGui.QIcon('double-arrows.png'))
+    Arrow.setIconSize(QtCore.QSize(48, 48))
+    Arrow.clicked.connect(switch_to_1)
+
+    widgets["f3backarrow"].append(Arrow)
+
+    # display logo, create a label widget
+    # place the image inside it
+    logoImage = QPixmap("AMPLIFAAI.png").scaledToWidth(350)
+    logo = QLabel()
+    logo.setPixmap(logoImage)
+    logo.setAlignment(QtCore.Qt.AlignCenter)
+    widgets["f3logo"].append(logo)
+
+    # initilize a button widget and designing
+    USER = QPushButton(">  u s e r  <")
+    USER.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+    USER.setStyleSheet(
+        "*{border: 4px solid '#BC006C';" +
+        "border-radius: 35px;" +
+        "font-size: 25px;" +
+        "color: 'white';" +
+        "padding: 18px 0;" +
+        "margin: 25px 300px;}" +
+        "*:hover{background: '#BC006C';}")
+    USER.clicked.connect(switch_to_3)
+    widgets["f3user"].append(USER)
+
+    ARTIST = QPushButton(">  a r t i s t  <")
+    ARTIST.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+    ARTIST.setStyleSheet(
+        "*{border: 4px solid '#BC006C';" +
+        "border-radius: 35px;" +
+        "font-size: 25px;" +
+        "color: 'white';" +
+        "padding: 18px 0;" +
+        "margin: 25px 300px;}" +
+        "*:hover{background: '#BC006C';}")
+    ARTIST.clicked.connect(switch_to_3)
+    widgets["f3artist"].append(ARTIST)
+
+    grid.addWidget(widgets["f3backarrow"][-1], 0, 1)
+    grid.addWidget(widgets["f3logo"][-1], 1, 0, 1, 2)
+    grid.addWidget(widgets["f3user"][-1], 2, 0, 1, 2)
+    grid.addWidget(widgets["f3artist"][-1], 3, 0, 1, 2)
+
+
+frame1()
+
 window.setLayout(grid)
 
 # show the window
